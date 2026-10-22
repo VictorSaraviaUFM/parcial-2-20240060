@@ -1,0 +1,28 @@
+meta {
+  name: Cobro al superar el tope
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{baseUrl}}/tickets/{{topeSuperadoId}}/salida
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "salida": "2026-10-22T15:00:00"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.minutos: eq 420
+}
+
+tests {
+  test("tope Q60 despues de siete horas", function() {
+    expect(res.getBody().monto).to.equal(60);
+  });
+}

@@ -1,0 +1,28 @@
+meta {
+  name: Cobro en tope exacto
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/tickets/{{topeExactoId}}/salida
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "salida": "2026-10-22T14:00:00"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.minutos: eq 360
+}
+
+tests {
+  test("tope Q60 a las seis horas", function() {
+    expect(res.getBody().monto).to.equal(60);
+  });
+}
